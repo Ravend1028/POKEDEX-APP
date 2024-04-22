@@ -1,2 +1,2 @@
 # POKEDEX-APP
-POKEDEX APP USING HTML, CSS, JS AND POKE API
+Welcome to the Pokedex App! Built with HTML, CSS, and JavaScript, this web application serves as a practice ground for API integration, utilizing the Poke API to fetch comprehensive information about Pokémon. With a responsive design, smooth animations, and a user-friendly interface, users can easily search for Pokémon by name or ID, accessing detailed stats, types, abilities, and more. 
