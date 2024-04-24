@@ -95,6 +95,10 @@ header p {
   .pokemon_list {
     grid-template-columns: repeat(2, minmax(120px, 1fr)); /* Two columns per row on smaller screens */
   }
+
+  .search_section {
+    flex-direction: column;
+  }
 }
 
 .pokemon-card {
