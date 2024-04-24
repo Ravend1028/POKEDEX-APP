@@ -83,9 +83,18 @@ header p {
 
 .pokemon_list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Use auto-fit instead of auto-fill */
   gap: 20px;
   padding: 20px;
+  max-width: 960px; /* Set a max-width to limit the width of the grid */
+  margin: 0 auto; /* Center the grid horizontally */
+}
+
+@media (max-width: 767px) {
+  /* Adjust grid layout for smaller screens */
+  .pokemon_list {
+    grid-template-columns: repeat(2, minmax(120px, 1fr)); /* Two columns per row on smaller screens */
+  }
 }
 
 .pokemon-card {
