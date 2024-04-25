@@ -93,7 +93,7 @@ header p {
 @media (max-width: 767px) {
   /* Adjust grid layout for smaller screens */
   .pokemon_list {
-    grid-template-columns: repeat(2, minmax(120px, 1fr)); /* Two columns per row on smaller screens */
+    grid-template-columns: repeat(1, minmax(120px, 1fr)); /* Two columns per row on smaller screens */
   }
 
   .search_section {
@@ -108,6 +108,7 @@ header p {
   text-align: center;
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .pokemon-img {
@@ -126,5 +127,60 @@ header p {
   font-weight: bold;
 }
 
+/* Custom styles for Pokémon details */
+
+.pokemon-details {
+  text-align: center;
+}
+
+.pokemon-stats-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stat-item {
+  background-color: white;
+  color: #333;
+  font-size: 16px;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 10px;
+  border: 1px solid black;
+}
+
+.back-button {
+  color: #333;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 50px;
+}
+
+.back-button:hover {
+  background-color: #ffd633;
+}
+
+@media (max-width: 767px) {
+  .pokemon-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .pokemon-stats-container {
+    text-align: center;
+  }
+  
+  .stat-item {
+    font-size: 14px;
+    padding: 8px;
+    margin: 3px;
+  }
+}
 
 

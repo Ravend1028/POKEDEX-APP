@@ -1,49 +1,93 @@
-fetch('https://pokeapi.co/api/v2/pokemon?limit=151&offset=0')
-  .then(res => {
-    return res.json();
-  })
-  .then(data => {
-    const pokemonList = data.results; // Array of Pokémon objects
+document.addEventListener('DOMContentLoaded', function() {
+  const mainElement = document.querySelector('.pokemon_list');
 
-    const mainElement = document.querySelector('.pokemon_list');
+  function displayPokemonCard(pokemon) {
+    const pokemonCard = document.createElement('div');
+    pokemonCard.classList.add('pokemon-card');
 
-    pokemonList.forEach(pokemon => {
-      // Create a card container for each Pokémon
-      const pokemonCard = document.createElement('div');
-      pokemonCard.classList.add('pokemon-card');
+    const pokemonImg = document.createElement('img');
+    pokemonImg.classList.add('pokemon-img');
+    pokemonImg.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
+    pokemonImg.alt = pokemon.name;
+    pokemonCard.appendChild(pokemonImg);
 
-      // Create an image element for the Pokémon picture
-      const pokemonImg = document.createElement('img');
-      pokemonImg.classList.add('pokemon-img');
+    const pokemonName = document.createElement('p');
+    pokemonName.textContent = pokemon.name;
+    pokemonCard.appendChild(pokemonName);
 
-      // Get the Pokémon's ID from its URL
-      const pokemonId = getPokemonIdFromUrl(pokemon.url);
-
-      // Set the image source to the Pokémon's picture
-      pokemonImg.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
-      pokemonImg.alt = pokemon.name;
-
-      // Create a paragraph element for the Pokémon's name
-      const pokemonName = document.createElement('p');
-      pokemonName.classList.add('pokemon-name');
-      pokemonName.textContent = pokemon.name;
-
-      // Append the image and name to the card container
-      pokemonCard.appendChild(pokemonImg);
-      pokemonCard.appendChild(pokemonName);
-
-      // Append the card container to the main element
-      mainElement.appendChild(pokemonCard);
+    pokemonCard.addEventListener('click', () => {
+      fetchPokemonData(`https://pokeapi.co/api/v2/pokemon/${pokemon.id}`);
     });
-  })
-  .catch(error => {
-    console.error('Error fetching Pokémon:', error);
-  });
 
-// Function to extract Pokémon ID from its URL
-function getPokemonIdFromUrl(url) {
-  const parts = url.split('/');
-  return parts[parts.length - 2];
-}
+    mainElement.appendChild(pokemonCard);
+  }
 
+  function displayPokemonDetails(pokemon) {
+    // Create container for Pokémon details
+    const detailsContainer = document.createElement('div');
+    detailsContainer.classList.add('pokemon-details');
+  
+    // Create and display Pokémon image
+    const pokemonImg = document.createElement('img');
+    pokemonImg.classList.add('pokemon-img');
+    pokemonImg.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
+    pokemonImg.alt = pokemon.name;
+    detailsContainer.appendChild(pokemonImg);
+  
+    // Create and display Pokémon name
+    const pokemonName = document.createElement('p');
+    pokemonName.classList.add('pokemon-name');
+    pokemonName.textContent = pokemon.name;
+    detailsContainer.appendChild(pokemonName);
+  
+    // Create and display Pokémon stats
+    const statsContainer = document.createElement('div');
+    statsContainer.classList.add('pokemon-stats-container');
+  
+    pokemon.stats.forEach(stat => {
+      const statItem = document.createElement('div');
+      statItem.classList.add('stat-item');
+      statItem.textContent = `${stat.stat.name}: ${stat.base_stat}`;
+      statsContainer.appendChild(statItem);
+    });
+  
+    detailsContainer.appendChild(statsContainer);
+  
+    // Create back button
+    const backButton = document.createElement('button');
+    backButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
+    backButton.classList.add('back-button'); // Add the back button style class
+    backButton.addEventListener('click', () => {
+      window.location.reload(); // Reload the page to go back to the initial list
+    });
+    detailsContainer.appendChild(backButton);
 
+    // Clear existing content and append details container
+    mainElement.innerHTML = '';
+    mainElement.appendChild(detailsContainer);
+  }  
+
+  function fetchPokemonData(url) {
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        displayPokemonDetails(data);
+      })
+      .catch(error => {
+        console.error('Error fetching Pokémon data:', error);
+      });
+  }
+
+  fetch('https://pokeapi.co/api/v2/pokemon?limit=151&offset=0')
+    .then(response => response.json())
+    .then(data => {
+      const pokemonList = data.results;
+      pokemonList.forEach((pokemon, index) => {
+        const pokemonId = index + 1;
+        displayPokemonCard({ id: pokemonId, name: pokemon.name });
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching Pokémon list:', error);
+    });
+});
